@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main game page</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'game/css/game.css' %}">
+
+    <div>
+
+        <img id="texture_mountain" src="{% static 'game/assets/DIRT.png' %}">
+        <img id="texture_sand" src="{% static 'game/assets/SAND.png' %}">
+        <img id="texture_grass" src="{% static 'game/assets/TALLGRASS.png' %}">
+        <img id="texture_water" src="{% static 'game/assets/WATER.png' %}">
+
+        <img id="barrier_tree" src="{% static 'game/assets/barriers/TINYLEAVES.png' %}">
+        <img id="barrier_rock" src="{% static 'game/assets/barriers/GRAYROCKS.png' %}">
+
+
+
+
+    </div>
+
+    <script>
+
+        let render_hex_border = false;
+
+        // Game draw information
+        let game_state = {{ game_data|safe }};
+
+        // Client viewport settings, Pan X-Y, Zoom
+        let px = 0;
+        let py = 0;
+        let drag = false;
+
+        // Client mouse position holders
+        let mx, my;
+
+        let cell_regions = [];
+        mouse_over_tile = null;
+        selected_tile = null;
+
+        let zoom = 1;
+
+    </script>
+
+    <script src={% static "game/js/canvas.js"%}></script>
+
+</head>
+<body>
+
+    <div class="main_div">
+
+        <div class="game_details">
+            <div class="resource_div">
+
+                <div>Influence: {{ game_context.resources.influence }}</div>
+                <br/>
+                <div>Wood: {{ game_context.resources.wood }}</div>
+                <div>Stone: {{ game_context.resources.stone }}</div>
+                <div>Minerals: {{ game_context.resources.minerals }}</div>
+                <div>Food: {{ game_context.resources.food }}</div>
+                <br/>
+                <div>Glass: {{ game_context.resources.glass }}</div>
+                <div>Metal: {{ game_context.resources.metal }}</div>
+
+
+            </div>
+            <div class="tile_div"></div>
+        </div>
+        <div class="game_canvas">
+
+            <canvas width="600" height="500" class="game_canvas" id="gameCanvas" oncanplay="canvas_init()"></canvas>
+
+        </div>
+
+        <div class="player_div">
+
+            <div class="player_list_div">
+
+                {% for player in game_context.players %}
+                <div class="player">{{ player.name }}: {{ player.score }}</div>
+                {% endfor %}
+
+            </div>
+
+            <div class="social_div"></div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+</body>
+
+
+
+</html>
